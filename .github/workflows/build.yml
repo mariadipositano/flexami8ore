@@ -1,0 +1,29 @@
+name: Build Windows exe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa PyInstaller
+        run: pip install pyinstaller
+
+      - name: Compila
+        run: pyinstaller --onefile --windowed --name Gegenwichte gegenwichte_widget.py
+
+      - name: Salva il programma
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gegenwichte-windows
+          path: dist/Gegenwichte.exe
